@@ -1,5 +1,5 @@
 import { Client } from "pg";
-import { CONNECTION_SETTINGS } from "./pool";
+import { CONNECTION_SETTINGS } from "./pool.js";
 
 const createGameTableQuery = `
 CREATE TABLE IF NOT EXISTS games (
@@ -85,7 +85,7 @@ INSERT INTO game_genres (game_id, genre_id) VALUES
 ($5, $6),
 ($7, $8);`;
 
-const gameGenresValues = [1, 3, 2, 1, 2, 2, 3, 4];
+const gameGenresValues = [1, 3, 2, 4, 2, 2, 3, 4];
 
 async function main() {
   const client = new Client(CONNECTION_SETTINGS);
@@ -97,8 +97,8 @@ async function main() {
     await client.query(createGameTableQuery);
     await client.query(createGameGenresTableQuery);
 
-    await client.query(insertIntoGenresQuery, genresValues);
     await client.query(insertIntoDevelopersQuery, developersValues);
+    await client.query(insertIntoGenresQuery, genresValues);
     await client.query(insertIntoGamesQuery, gamesValues);
     await client.query(insertIntoGameGenresQuery, gameGenresValues);
   } catch (error) {

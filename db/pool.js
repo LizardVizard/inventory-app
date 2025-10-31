@@ -8,10 +8,10 @@ if (!isProduction) {
 }
 
 export const CONNECTION_SETTINGS = {
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.NAME,
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
   ssl: isProduction ? true : false,
 };
 
