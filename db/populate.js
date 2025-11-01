@@ -29,63 +29,74 @@ genre_id INTEGER REFERENCES genres(id),
 PRIMARY KEY(game_id, genre_id)
 );`;
 
-const insertIntoGenresQuery = `
+const insertGenres = async (client) => {
+  const insertIntoGenresQuery = `
 INSERT INTO genres (name) VALUES
-($1),
-($2),
-($3),
-($4);`;
+($1);`;
 
-const genresValues = [
-  "Not defined genre",
-  "Action",
-  "Open World",
-  "Role-Playing Game",
-];
+  const genres = [
+    "Not defined genre",
+    "Action",
+    "Open World",
+    "Role-Playing Game",
+  ];
 
-const insertIntoDevelopersQuery = `
+  for (const genre of genres) {
+    client.query(insertIntoGenresQuery, [genre]);
+  }
+};
+
+const insertDevelopers = async (client) => {
+  const insertIntoDevelopersQuery = `
 INSERT INTO developers (name, country) VALUES
-($1, NULL),
-($2, $3),
-($4, $5),
-($6, $7);`;
+($1, $2);`;
 
-const developersValues = [
-  "Not defined developer",
-  "CD Project Red",
-  "Poland",
-  "FromSoftware",
-  "Japan",
-  "BioWare",
-  "Canada",
-];
+  const developers = [
+    ["CD Project Red", "Poland"],
+    ["FromSoftware", "Japan"],
+    ["BioWare", "Canada"],
+  ];
 
-const insertIntoGamesQuery = `
+  await client.query(`INSERT INTO developers (name, country) VALUES
+  ('Not defined developer', NULL)`);
+
+  for (const [name, country] of developers) {
+    await client.query(insertIntoDevelopersQuery, [name, country]);
+  }
+};
+
+const insertGames = async (client) => {
+  const insertIntoGamesQuery = `
 INSERT INTO games(title, developer_id, release_year) VALUES
-($1, $2, $3),
-($4, $5, $6),
-($7, $8, $9);`;
+($1, $2, $3);`;
 
-const gamesValues = [
-  "Elden Ring",
-  3,
-  2022,
-  "Cyberpunk 2077",
-  2,
-  2020,
-  "Mass Effect",
-  4,
-  2007,
-];
+  const gamesValues = [
+    ["Elden Ring", 3, 2022],
+    ["Cyberpunk 2077", 2, 2020],
+    ["Mass Effect", 4, 2007],
+  ];
 
-const insertIntoGameGenresQuery = `
+  for (const [title, developerId, releaseYear] of gamesValues) {
+    await client.query(insertIntoGamesQuery, [title, developerId, releaseYear]);
+  }
+};
+
+const insertGameGenres = async (client) => {
+  const insertIntoGameGenresQuery = `
 INSERT INTO game_genres (game_id, genre_id) VALUES
-($1, $2),
-($3, $4),
-($5, $6),
-($7, $8);`;
+($1, $2);`;
 
-const gameGenresValues = [1, 3, 2, 4, 2, 2, 3, 4];
+  const gameGenres = [
+    [1, 3],
+    [2, 4],
+    [2, 2],
+    [3, 4],
+  ];
+
+  for (const [gameId, genreId] of gameGenres) {
+    await client.query(insertIntoGameGenresQuery, [gameId, genreId]);
+  }
+};
 
 async function main() {
   const client = new Client(CONNECTION_SETTINGS);
@@ -97,10 +108,10 @@ async function main() {
     await client.query(createGameTableQuery);
     await client.query(createGameGenresTableQuery);
 
-    await client.query(insertIntoDevelopersQuery, developersValues);
-    await client.query(insertIntoGenresQuery, genresValues);
-    await client.query(insertIntoGamesQuery, gamesValues);
-    await client.query(insertIntoGameGenresQuery, gameGenresValues);
+    await insertDevelopers(client);
+    await insertGenres(client);
+    await insertGames(client);
+    await insertGameGenres(client);
   } catch (error) {
     console.log(error);
   } finally {
