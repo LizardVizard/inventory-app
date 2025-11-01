@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/style.css"/>
+    </head>
+    <body>
+        <h2> <%= title %> </h2>
+        <ul>
+            <%if (genres) {%>
+                <%genres.forEach((genre) => {%>
+                    <li><a href="/genres/<%= genre.id %>"><%= genre.name %></a></li>
+                <%})%>
+            <%}%>
+        </ul>
+    </body>
+</html
