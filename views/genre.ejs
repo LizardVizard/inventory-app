@@ -8,16 +8,18 @@
         <%if (!genreFound) {%>
             <h3>Genre not found</h3>
         <%} else {%>
-            <h3> List of games with <%= genre.name %> genre: </h3>
-            <ul>
-                <%if (!games) {%>
-                    <b>No games</b>
-                <%} else {%>
+        <div class='category-list'>
+            <div class='category'>
+            <h4>  List of games with <%= genre.name %> genre: </h4>
+                <%if (games) {%>
                     <%games.forEach((game) => {%>
-                        <li><a href="/games/<%=game.id%>"><%= game.title%></a></li>
+                        <p><a href="/games/<%= game.id %>"><%= game.title%></a></p>
                     <%})%>
+                <%} else {%>
+                    <h4>No games</h4>
                 <%}%>
-            </ul>
+            </div>
+        </div>
         <%}%>
     </body>
 </html

@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/style.css"/>
+    </head>
+    <body>
+        <div class="category-list">
+            <div class="category">
+                <h4>Games</h4>
+                <%if (!games.length) {%>
+                    <h5> No games </h5>
+                <%} else {%>
+                    <%games.forEach((game) => {%>
+                        <p><a href="/games/<%=game.id%>"><%= game.title%></a></p>
+                    <%})%>
+                    <a href="/games/" tabindex="-1"><button>List all games</button></a>
+                <%}%>
+            </div>
+            <div class="category">
+                <h4>Genres</h4>
+                <%if (!genres.length) {%>
+                    <h5> No genres </h5>
+                <%} else {%>
+                    <%genres.forEach((genre) => {%>
+                        <p><a href="/genres/<%=genre.id%>"><%= genre.name%></a></p>
+                    <%})%>
+                    <a href="/genres/" tabindex="-1"><button>List all genres</button></a>
+                <%}%>
+            </div>
+            <div class="category">
+                <h4>Developers</h4>
+                <%if (!developers.length) {%>
+                    <h5> No developers </h5>
+                <%} else {%>
+                    <%developers.forEach((developer) => {%>
+                        <p><a href="/developers/<%=developer.id%>"><%= developer.name%></a></p>
+                    <%})%>
+                    <a href="/developers/" tabindex="-1"><button>List all developers</button></a>
+                <%}%>
+            </div>
+        </div>
+    </body>
+</html

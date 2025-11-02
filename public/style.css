@@ -1,0 +1,46 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.category-list {
+  display: flex;
+  /* width: 100%; */
+  gap: 4rem;
+  justify-content: space-around;
+  padding: 3rem 2rem 0 2rem;
+}
+
+.category {
+  flex: 1 1 auto;
+  min-width: 300px;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category > h4 {
+  background-color: lightgrey;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 1.2rem;
+}
+
+.category > p {
+  padding: 0.5rem;
+}
+
+.category > p:nth-child(2n + 1) {
+  background-color: #eaeaea;
+}
+
+.category button {
+  margin: 0.5rem;
+  padding: 0.2rem;
+}
+
+.category > a {
+  /* justify-self: center; */
+  margin: 0 auto;
+  /*   padding: 0.5rem; */
+}

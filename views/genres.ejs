@@ -5,13 +5,17 @@
         <link rel="stylesheet" href="/style.css"/>
     </head>
     <body>
-        <h2> <%= title %> </h2>
-        <ul>
-            <%if (genres) {%>
-                <%genres.forEach((genre) => {%>
-                    <li><a href="/genres/<%= genre.id %>"><%= genre.name %></a></li>
-                <%})%>
-            <%}%>
-        </ul>
+        <div class='category-list'>
+            <div class='category'>
+            <h4> <%= title %> </h4>
+                <%if (genres) {%>
+                    <%genres.forEach((genre) => {%>
+                        <p><a href="/genres/<%= genre.id %>"><%= genre.name %></a></p>
+                    <%})%>
+                <%} else {%>
+                    <h4>No genres</h4>
+                <%}%>
+            </div>
+        </div>
     </body>
 </html
