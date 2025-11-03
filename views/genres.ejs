@@ -7,10 +7,19 @@
     <body>
         <div class='category-list'>
             <div class='category'>
-            <h4> <%= title %> </h4>
+                <div class="title-section">
+                    <h4>
+                        <%= title %>
+                    </h4>
+                    <a href="/genres/create/" tabindex="-1"><button>Add new genre</button></a>
+                </div>
                 <%if (genres) {%>
                     <%genres.forEach((genre) => {%>
-                        <p><a href="/genres/<%= genre.id %>"><%= genre.name %></a></p>
+                        <p>
+                            <a href="/genres/<%= genre.id %>"><%= genre.name %></a>
+                            <button>Update</button>
+                            <button>Delete</button>
+                        </p>
                     <%})%>
                 <%} else {%>
                     <h4>No genres</h4>

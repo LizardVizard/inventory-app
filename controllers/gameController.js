@@ -1,5 +1,18 @@
 import queries from "../db/queries.js";
 
+const getAllGames = async (req, res) => {
+  let games = [];
+  let gamesFound = false;
+
+  games = await queries.getAllGames();
+
+  if (games.length) {
+    gamesFound = true;
+  }
+
+  res.render("games", { title: "All games", gamesFound, games });
+};
+
 const getGameById = async (req, res) => {
   const { id } = req.params;
   const game = await queries.getGameById(id);
@@ -23,4 +36,4 @@ const getGameById = async (req, res) => {
   });
 };
 
-export default { getGameById };
+export default { getAllGames, getGameById };

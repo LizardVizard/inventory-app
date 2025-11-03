@@ -1,5 +1,15 @@
 import pool from "./pool.js";
 
+const getAllGames = async () => {
+  const { rows } = await pool.query(`SELECT * FROM games;`);
+  return rows;
+};
+
+const getAllDevelopers = async () => {
+  const { rows } = await pool.query(`SELECT * FROM developers WHERE id != 1`);
+  return rows;
+};
+
 const getAllGenres = async () => {
   const { rows } = await pool.query(`SELECT * FROM genres;`);
   return rows;
@@ -59,7 +69,9 @@ const getGamesByDeveloperId = async (id) => {
 // };
 
 export default {
+  getAllGames,
   getAllGenres,
+  getAllDevelopers,
   getGenreById,
   getGamesByGenreId,
   getGameById,
