@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/style.css"/>
+    </head>
+    <body>
+        <div class='category-list'>
+            <div class='category'>
+            <div class="title-section"><h4> <%= title %> </h4></div>
+            <form method="POST">
+                <div class="form-row">
+                <label for="name">Genre name: </label>
+                <input name="name" type="text" value="<%=oldData.name || ''%>"></input>
+                </div>
+                <%if (locals.errors) {%>
+                <div class="errors-section section">
+                    <%errors.forEach((error) => {%>
+                        <p><%= error.msg%></p>
+                    <%})%>
+
+                </div>
+                <%}%>
+                <button>Create new genre</button>
+            </form
+            </div>
+        </div>
+    </body>
+</html

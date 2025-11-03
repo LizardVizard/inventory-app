@@ -7,7 +7,7 @@
     <body>
         <div class="category-list">
             <div class="category">
-                <h4>Games</h4>
+                <div class="title-section"><h4><%=n%> Latest Games</h4></div>
                 <%if (!games.length) {%>
                     <h5> No games </h5>
                 <%} else {%>
@@ -18,7 +18,7 @@
                 <%}%>
             </div>
             <div class="category">
-                <h4>Genres</h4>
+                <div class="title-section"><h4>Top <%=n%> Genres by game count</h4></div>
                 <%if (!genres.length) {%>
                     <h5> No genres </h5>
                 <%} else {%>
@@ -29,7 +29,7 @@
                 <%}%>
             </div>
             <div class="category">
-                <h4>Developers</h4>
+                <div class="title-section"><h4>Top <%=n%> Developers by games developed</h4></div>
                 <%if (!developers.length) {%>
                     <h5> No developers </h5>
                 <%} else {%>

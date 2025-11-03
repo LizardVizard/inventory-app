@@ -19,15 +19,32 @@
   flex-direction: column;
 }
 
-.category > h4 {
+.title-section {
   background-color: lightgrey;
   border: 1px solid #000;
   border-radius: 4px;
   padding: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.title-section > h4 {
+  flex: 1 1 auto;
+}
+
+.title-section button {
+  padding: 0;
+  margin: 0;
 }
 
 .category > p {
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.category > p > a {
+  flex: 1 1 auto;
 }
 
 .category > p:nth-child(2n + 1) {
@@ -43,4 +60,16 @@
   /* justify-self: center; */
   margin: 0 auto;
   /*   padding: 0.5rem; */
+}
+
+.category > form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
 }
