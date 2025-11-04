@@ -17,8 +17,10 @@
                     <%genres.forEach((genre) => {%>
                         <p>
                             <a href="/genres/<%= genre.id %>"><%= genre.name %></a>
-                            <button>Update</button>
-                            <button>Delete</button>
+                            <span>
+                                <a href="/genres/<%= genre.id%>/update/" tabindex="-1"><button>Update</button></a>
+                                <a href="/genres/<%= genre.id%>/delete/" tabindex="-1"><button>Delete</button></a>
+                            </span>
                         </p>
                     <%})%>
                 <%} else {%>

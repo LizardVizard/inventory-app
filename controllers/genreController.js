@@ -43,7 +43,6 @@ const getCreateGenre = async (req, res) => {
 const postCreateGenre = [
   validateGenre,
   async (req, res) => {
-    // const { name } = req.body;
     const errors = validationResult(req);
     const { name } = matchedData(req);
 
@@ -55,7 +54,46 @@ const postCreateGenre = [
       });
     }
 
-    const id = await queries.insertGenre(name);
+    try {
+      const { id, name: createdName } = await queries.insertGenre(name);
+      console.log("Created genre with name: ", createdName, id);
+      res.redirect(`/genres/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+];
+
+const getUpdateGenre = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const genre = await queries.getGenreById(id);
+    res.render("updateGenre", { title: "Updating genre", genre });
+    if (!genre) {
+      return res.status(404).render("404", { message: "Genre not found" });
+    }
+  } catch (error) {
+    return res.status(500).render("error", { message: "Server error" });
+  }
+};
+
+const postUpdateGenre = [
+  validateGenre,
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!errors.isEmpty()) {
+      return res.render("updateGenre", {
+        title: "Updating genre",
+        genre: { name },
+        errors: errors.array({ onlyFirstError: true }),
+      });
+    }
+
+    await queries.updateGenre(id, name);
     res.redirect(`/genres/${id}`);
   },
 ];
@@ -65,4 +103,6 @@ export default {
   getGenreById,
   getCreateGenre,
   postCreateGenre,
+  getUpdateGenre,
+  postUpdateGenre,
 };

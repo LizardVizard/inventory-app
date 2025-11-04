@@ -83,6 +83,21 @@ const getGamesByDeveloperId = async (id) => {
   return rows;
 };
 
+const insertGenre = async (name) => {
+  const { rows } = await pool.query(
+    `INSERT INTO genres (name) VALUES ($1) RETURNING id, name`,
+    [name],
+  );
+  return rows[0];
+};
+
+const updateGenre = async (id, name) => {
+  const { rows } = await pool.query(`UPDATE genres SET name=$2 WHERE id=$1;`, [
+    id,
+    name,
+  ]);
+};
+
 // const getDeveloperByGameId = async (id) => {
 //   const { rows } = await pool.query(`SELECT * FROM developers WHERE id = $1`, [
 //     id,
@@ -104,4 +119,6 @@ export default {
   getDeveloperById,
   // getDeveloperByGameId,
   getGamesByDeveloperId,
+  insertGenre,
+  updateGenre,
 };
