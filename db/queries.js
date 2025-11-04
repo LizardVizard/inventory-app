@@ -98,6 +98,10 @@ const updateGenre = async (id, name) => {
   ]);
 };
 
+const deleteGenre = async (id) => {
+  await pool.query(`DELETE FROM genres WHERE id=$1`, [id]);
+};
+
 // const getDeveloperByGameId = async (id) => {
 //   const { rows } = await pool.query(`SELECT * FROM developers WHERE id = $1`, [
 //     id,
@@ -121,4 +125,5 @@ export default {
   getGamesByDeveloperId,
   insertGenre,
   updateGenre,
+  deleteGenre,
 };

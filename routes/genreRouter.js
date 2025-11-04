@@ -13,5 +13,9 @@ genreRouter
   .route("/:id/update")
   .get(genreController.getUpdateGenre)
   .post(genreController.postUpdateGenre);
+genreRouter
+  .route("/:id/delete")
+  .get(genreController.getDeleteGenre)
+  .post(genreController.postDeleteGenre);
 
 export default genreRouter;

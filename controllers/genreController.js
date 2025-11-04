@@ -98,6 +98,44 @@ const postUpdateGenre = [
   },
 ];
 
+const getDeleteGenre = async (req, res) => {
+  const { id } = req.params;
+
+  // const games = await queries.getGamesByGenreId(id);
+  // const genre = await queries.getGenreById(id);
+  const [genre, games] = await Promise.all([
+    queries.getGenreById(id),
+    queries.getGamesByGenreId(id),
+  ]);
+
+  console.log(games.length, genre.name);
+  res.render("deleteGenre", {
+    title: "Delete genre",
+    genre,
+    gameCount: games.length,
+  });
+};
+
+const postDeleteGenre = async (req, res) => {
+  const { id } = req.params;
+  const [genre, games] = await Promise.all([
+    queries.getGenreById(id),
+    queries.getGamesByGenreId(id),
+  ]);
+
+  if (games.length > 0) {
+    return res.render("deleteGenre", {
+      title: "Delete genre",
+      genre,
+      gameCount: games.length,
+      errors: [{ msg: "You must delete or reasign this genre from all games" }],
+    });
+  }
+
+  await queries.deleteGenre(id);
+  res.redirect("/genres/");
+};
+
 export default {
   getAllGenres,
   getGenreById,
@@ -105,4 +143,6 @@ export default {
   postCreateGenre,
   getUpdateGenre,
   postUpdateGenre,
+  getDeleteGenre,
+  postDeleteGenre,
 };

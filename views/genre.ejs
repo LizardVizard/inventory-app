@@ -10,7 +10,9 @@
         <%} else {%>
         <div class='category-list'>
             <div class='category'>
-            <div class="title-section"><h4>  List of games with <%= genre.name %> genre: </h4></div>
+            <div class="title-section"><h4>  List of games with <%= genre.name %> genre: </h4>
+                    <a href="/genres/<%= genre.id%>/delete/" tabindex="-1"><button>Delete</button></a>
+                </div>
                 <%if (games) {%>
                     <%games.forEach((game) => {%>
                         <p><a href="/games/<%= game.id %>"><%= game.title%></a></p>
