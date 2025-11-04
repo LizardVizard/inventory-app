@@ -10,7 +10,7 @@ const getIndexPage = async (req, res) => {
   // genres = await
   genres = await queries.getNGenresByGameCount(n);
   developers = await queries.getNDevelopersByGameCount(n);
-  games = await queries.getNGamesByReleaseDate(n);
+  games = await queries.getNGamesByReleaseYear(n);
 
   res.render("index", { title: "Main page", n, genres, developers, games });
 };

@@ -15,6 +15,28 @@ const getAllGenres = async () => {
   return rows;
 };
 
+const getNGenresByGameCount = async (n = 5) => {
+  const { rows } = await pool.query(
+    `SELECT gn.id, gn.name, COUNT(gmgn.game_id) AS game_count FROM genres AS gn LEFT JOIN game_genres AS gmgn ON gmgn.genre_id=gn.id WHERE gn.id != 1 GROUP BY (gn.id, gn.name) ORDER BY game_count DESC,gn.name LIMIT $1`,
+    [n],
+  );
+  return rows;
+};
+const getNDevelopersByGameCount = async (n = 5) => {
+  const { rows } = await pool.query(
+    `SELECT d.id, d.name, COUNT(g.developer_id) AS game_count FROM games AS g RIGHT JOIN developers AS d ON g.developer_id=d.id WHERE d.id != 1 GROUP BY (d.id, d.name) ORDER BY game_count DESC,d.name LIMIT $1`,
+    [n],
+  );
+  return rows;
+};
+const getNGamesByReleaseYear = async (n = 5) => {
+  const { rows } = await pool.query(
+    `SELECT * FROM games ORDER BY release_year DESC, title LIMIT $1`,
+    [n],
+  );
+  return rows;
+};
+
 const getGenreById = async (id) => {
   const { rows } = await pool.query(`SELECT * FROM genres WHERE id = $1`, [id]);
   return rows[0];
@@ -72,6 +94,9 @@ export default {
   getAllGames,
   getAllGenres,
   getAllDevelopers,
+  getNGenresByGameCount,
+  getNDevelopersByGameCount,
+  getNGamesByReleaseYear,
   getGenreById,
   getGamesByGenreId,
   getGameById,
