@@ -5,16 +5,18 @@
         <link rel="stylesheet" href="/style.css"/>
     </head>
     <body>
+        <div class="category-list">
         <%if (!gameFound) {%>
             <h3>Game not found</h3>
         <%} else {%>
-            <h3> <%= game.title%>(<%= game.release_year%>)</h3>
+            <div class="category"><h3> <%= game.title%>(<%= game.release_year%>)</h3>
             <h4> Genres: 
                 <%genres.forEach((genre, index) => {%>
                     <a href="/genres/<%=genre.id%>"><%= genre.name%></a><%= index < genres.length-1 ? ", " : ""%>
                 <%})%> 
             </h4>
-            <h4> Developed by: <a href='/developers/<%=developer.id%>'><%= developer.name%></a> </h4>
+            <h4> Developed by: <a href='/developers/<%=developer.id%>'><%= developer.name%></a> </h4></div>
         <%}%>
+        </div>
     </body>
 </html
