@@ -7,7 +7,10 @@
     <body>
         <div class='category-list'>
             <div class='category'>
-            <div class="title-section"><h4> <%= title %> </h4></div>
+                <div class="title-section">
+                    <h4> <%= title %> </h4>
+                    <a href="/developers/create/" tabindex="-1"><button>Add new developer</button></a>
+                </div>
                 <%if (developers.length) {%>
                     <%developers.forEach((developer) => {%>
                         <p><a href="/developers/<%= developer.id %>"><%= developer.name%></a></p>
