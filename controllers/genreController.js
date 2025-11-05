@@ -71,10 +71,12 @@ const getUpdateGenre = async (req, res) => {
     const genre = await queries.getGenreById(id);
     res.render("updateGenre", { title: "Updating genre", genre });
     if (!genre) {
-      return res.status(404).render("404", { message: "Genre not found" });
+      res.status(404).render("404", { message: "Genre not found" });
+      return;
     }
   } catch (error) {
-    return res.status(500).render("error", { message: "Server error" });
+    res.status(500).render("error", { message: "Server error" });
+    return;
   }
 };
 
@@ -99,14 +101,19 @@ const postUpdateGenre = [
 ];
 
 const getDeleteGenre = async (req, res) => {
-  const { id } = req.params;
+  const id = Number(req.params.id);
 
-  // const games = await queries.getGamesByGenreId(id);
-  // const genre = await queries.getGenreById(id);
   const [genre, games] = await Promise.all([
     queries.getGenreById(id),
     queries.getGamesByGenreId(id),
   ]);
+
+  if (!genre) {
+    res
+      .status(404)
+      .render("404", { title: "Page not found", message: "Genre not found" });
+    return;
+  }
 
   console.log(games.length, genre.name);
   res.render("deleteGenre", {
@@ -122,6 +129,13 @@ const postDeleteGenre = async (req, res) => {
     queries.getGenreById(id),
     queries.getGamesByGenreId(id),
   ]);
+
+  if (!genre) {
+    res
+      .status(404)
+      .render("404", { title: "Page not found", message: "Genre not found" });
+    return;
+  }
 
   if (games.length > 0) {
     return res.render("deleteGenre", {

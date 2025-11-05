@@ -11,7 +11,7 @@ const getAllDevelopers = async () => {
 };
 
 const getAllGenres = async () => {
-  const { rows } = await pool.query(`SELECT * FROM genres;`);
+  const { rows } = await pool.query(`SELECT * FROM genres WHERE id != 1;`);
   return rows;
 };
 
