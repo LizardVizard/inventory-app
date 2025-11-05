@@ -119,6 +119,10 @@ const updateDeveloper = async ({ id, name, country }) => {
   ]);
 };
 
+const deleteDeveloper = async (id) => {
+  await pool.query(`DELETE FROM developers WHERE id=$1`, [id]);
+};
+
 // const getDeveloperByGameId = async (id) => {
 //   const { rows } = await pool.query(`SELECT * FROM developers WHERE id = $1`, [
 //     id,
@@ -145,4 +149,5 @@ export default {
   deleteGenre,
   insertDeveloper,
   updateDeveloper,
+  deleteDeveloper,
 };

@@ -107,8 +107,50 @@ const postUpdateDeveloper = [
   },
 ];
 
-// const games = await queries.getGamesByDeveloperId(id);
-// gameCount: games.length,
+const getDeleteDeveloper = async (req, res) => {
+  const id = Number(req.params.id);
+
+  const [developer, games] = await Promise.all([
+    queries.getDeveloperById(id),
+    queries.getGamesByDeveloperId(id),
+  ]);
+
+  if (!developer) {
+    res.status(404).render("404", {
+      title: "Page not found",
+      message: "Developer not found",
+    });
+    return;
+  }
+
+  res.render("deleteDeveloper", {
+    title: `Deleting ${developer.name} developer`,
+    developer,
+    gameCount: games.length,
+  });
+};
+
+const postDeleteDeveloper = async (req, res) => {
+  const id = Number(req.params.id);
+
+  const [developer, games] = await Promise.all([
+    queries.getDeveloperById(id),
+    queries.getGamesByDeveloperId(id),
+  ]);
+
+  if (games.length > 0) {
+    res.render("deleteDeveloper", {
+      title: `Deleting ${developer.name} developer`,
+      developer,
+      gameCount: games.length,
+      errors: [{ msg: "Developer must have not games to be deleted" }],
+    });
+    return;
+  }
+
+  await queries.deleteDeveloper(id);
+  res.redirect("/developers");
+};
 
 export default {
   getAllDevelopers,
@@ -117,4 +159,6 @@ export default {
   postCreateDeveloper,
   getUpdateDeveloper,
   postUpdateDeveloper,
+  getDeleteDeveloper,
+  postDeleteDeveloper,
 };

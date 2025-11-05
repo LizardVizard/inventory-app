@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/style.css"/>
+    </head>
+    <body>
+        <div class='category-list'>
+            <div class='category'>
+            <div class="title-section"><h4> <%= title %> </h4></div>
+            <p>Developer: <%= developer.name%></p>
+            <p>This developer has <%= gameCount%> games</p>
+            <%if (locals.errors) {%>
+            <div class="errors-section section">
+                <%errors.forEach((error) => {%>
+                    <p><%= error.msg%></p>
+                <%})%>
+
+            </div>
+            <%}%>
+            <form method="POST">
+                <%if (gameCount > 0) {%>
+                <span><i>*Developer must have no games to be deleted</i></span>
+                <button disabled>Confirm developer deletion</button>
+                <%} else {%>
+                    <button>Confirm developer deletion</button>
+                <%}%>
+            </form>
+            </div>
+        </div>
+    </body>
+</html>
+

@@ -15,9 +15,14 @@
                     <div>
                         <h3> <%= developer.name %> </h3>
                         <h4>from <%= developer.country%> </h4>
+                        <h2>
+                            <a href="/developers/<%= developer.id%>/delete/" tabindex="-1"><button>Delete</button></a>
+                        </h2>
                     </div>
                     <div class='category'>
-                    <div class="title-section"><h4>  List of games developed by <%= developer.name %> </h4></div>
+                    <div class="title-section">
+                        <h4>  List of games developed by <%= developer.name %> </h4>
+                    </div>
                         <%if (games) {%>
                             <%games.forEach((game) => {%>
                                 <p><a href="/games/<%= game.id %>"><%= game.title%></a></p>
