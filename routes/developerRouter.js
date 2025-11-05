@@ -9,5 +9,9 @@ developerRouter
   .get(developerController.getCreateDeveloper)
   .post(developerController.postCreateDeveloper);
 developerRouter.get("/:id", developerController.getDeveloperById);
+developerRouter
+  .route("/:id/update")
+  .get(developerController.getUpdateDeveloper)
+  .post(developerController.postUpdateDeveloper);
 
 export default developerRouter;

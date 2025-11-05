@@ -13,7 +13,11 @@
                 </div>
                 <%if (developers.length) {%>
                     <%developers.forEach((developer) => {%>
-                        <p><a href="/developers/<%= developer.id %>"><%= developer.name%></a></p>
+                        <p><a href="/developers/<%= developer.id %>"><%= developer.name%></a>
+                            <span>
+                                <a href="/developers/<%= developer.id%>/update/" tabindex="-1"><button>Update</button></a>
+                            </span>
+                </p>
                     <%})%>
                 <%} else {%>
                     <h4>Developer list empty</h4>

@@ -111,6 +111,14 @@ const insertDeveloper = async (name, country = "") => {
   return rows[0];
 };
 
+const updateDeveloper = async ({ id, name, country }) => {
+  await pool.query(`UPDATE developers SET name=$2, country=$3 WHERE id=$1`, [
+    id,
+    name,
+    country,
+  ]);
+};
+
 // const getDeveloperByGameId = async (id) => {
 //   const { rows } = await pool.query(`SELECT * FROM developers WHERE id = $1`, [
 //     id,
@@ -136,4 +144,5 @@ export default {
   updateGenre,
   deleteGenre,
   insertDeveloper,
+  updateDeveloper,
 };

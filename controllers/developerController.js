@@ -71,9 +71,50 @@ const postCreateDeveloper = [
   },
 ];
 
+const getUpdateDeveloper = async (req, res) => {
+  const id = Number(req.params.id);
+
+  const developer = await queries.getDeveloperById(id);
+  const games = await queries.getGamesByDeveloperId(id);
+
+  res.render("updateDeveloper", {
+    title: `Updating ${developer.name} developer`,
+    developer,
+    gameCount: games.length,
+  });
+};
+
+const postUpdateDeveloper = [
+  validateDeveloper,
+  async (req, res) => {
+    const id = Number(req.params.id);
+    const { name, country } = matchedData(req, { onlyValidData: false });
+    const errors = validationResult(req);
+
+    const developer = { id, name, country };
+
+    if (!errors.isEmpty()) {
+      res.render("updateDeveloper", {
+        title: `Updating developer`,
+        developer,
+        errors: errors.array({ onlyFirstError: true }),
+      });
+      return;
+    }
+
+    await queries.updateDeveloper({ ...developer });
+    res.redirect(`/developers/${developer.id}`);
+  },
+];
+
+// const games = await queries.getGamesByDeveloperId(id);
+// gameCount: games.length,
+
 export default {
   getAllDevelopers,
   getDeveloperById,
   getCreateDeveloper,
   postCreateDeveloper,
+  getUpdateDeveloper,
+  postUpdateDeveloper,
 };
