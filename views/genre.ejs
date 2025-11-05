@@ -9,9 +9,15 @@
             <h3>Genre not found</h3>
         <%} else {%>
         <div class='category-list'>
-            <div class='category'>
-            <div class="title-section"><h4>  List of games with <%= genre.name %> genre: </h4>
+            <div>
+                <h3> <%= genre.name %> </h3>
+                <h2>
                     <a href="/genres/<%= genre.id%>/delete/" tabindex="-1"><button>Delete</button></a>
+                </h2>
+            </div>
+            <div class='category'>
+                <div class="title-section">
+                    <h4>  List of games with <%= genre.name %> genre: </h4>
                 </div>
                 <%if (games) {%>
                     <%games.forEach((game) => {%>

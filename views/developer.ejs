@@ -20,9 +20,9 @@
                         </h2>
                     </div>
                     <div class='category'>
-                    <div class="title-section">
-                        <h4>  List of games developed by <%= developer.name %> </h4>
-                    </div>
+                        <div class="title-section">
+                            <h4>  List of games developed by <%= developer.name %> </h4>
+                        </div>
                         <%if (games) {%>
                             <%games.forEach((game) => {%>
                                 <p><a href="/games/<%= game.id %>"><%= game.title%></a></p>
