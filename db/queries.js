@@ -123,6 +123,23 @@ const deleteDeveloper = async (id) => {
   await pool.query(`DELETE FROM developers WHERE id=$1`, [id]);
 };
 
+const insertGame = async ({ title, developerId, releaseYear }) => {
+  const { rows } = await pool.query(
+    `INSERT INTO games (title, developer_id, release_year) VALUES ($1, $2, $3) RETURNING id;`,
+    [title, developerId, releaseYear],
+  );
+  return rows[0];
+};
+
+const insertGameGenres = async (gameId, genreIdArray) => {
+  genreIdArray.forEach(async (genreId) => {
+    await pool.query(
+      `INSERT INTO game_genres (game_id, genre_id) VALUES ($1, $2)`,
+      [gameId, genreId],
+    );
+  });
+};
+
 // const getDeveloperByGameId = async (id) => {
 //   const { rows } = await pool.query(`SELECT * FROM developers WHERE id = $1`, [
 //     id,
@@ -132,22 +149,26 @@ const deleteDeveloper = async (id) => {
 
 export default {
   getAllGames,
-  getAllGenres,
-  getAllDevelopers,
-  getNGenresByGameCount,
-  getNDevelopersByGameCount,
-  getNGamesByReleaseYear,
-  getGenreById,
-  getGamesByGenreId,
   getGameById,
-  getGenresByGameId,
-  getDeveloperById,
-  // getDeveloperByGameId,
+  getGamesByGenreId,
   getGamesByDeveloperId,
+  insertGame,
+  insertGameGenres,
+  getNGamesByReleaseYear,
+
+  getAllGenres,
+  getGenreById,
+  getGenresByGameId,
   insertGenre,
   updateGenre,
   deleteGenre,
+  getNGenresByGameCount,
+
+  getAllDevelopers,
+  getDeveloperById,
+  // getDeveloperByGameId,
   insertDeveloper,
   updateDeveloper,
   deleteDeveloper,
+  getNDevelopersByGameCount,
 };

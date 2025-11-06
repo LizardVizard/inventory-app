@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/style.css"/>
+    </head>
+    <body>
+        <div class='category-list'>
+            <div class='category'>
+            <div class="title-section"><h4> <%= title %> </h4></div>
+            <form method="POST">
+                <div class="form-row">
+                    <label for="title">Game title: </label>
+                    <input name="title" type="text" value="<%=oldData.title || ''%>"></input>
+                </div>
+                <div class="form-row">
+                    <label>Select genres: </label>
+                        <select name="developerId" required>
+                            <option selected="true" value disabled>--select a developer--</option>
+                            <%developers.forEach((developer) => {%>
+                                <option value="<%=developer.id%>">
+                                <%=developer.name%>
+                                </option>
+                            <%})%>
+                        </select>
+
+                </div>
+                <div class="form-row">
+                    <label>Select genres: </label>
+                    <div class="checkbox-container">
+                        <%genres.forEach((genre) => {%>
+                            <div>
+                                <input type="checkbox" name="genres" value="<%=genre.id%>">
+                                <label for="genres"><%=genre.name%></label>
+                            </div>
+                        <%})%>
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <label for="releaseYear">Game release year: </label>
+                    <input name="releaseYear" type="number" min="1900" max="<%=new Date().getFullYear()+5%>" value="<%=oldData.releaseYear || ''%>"></input>
+                </div>
+                <%if (locals.errors) {%>
+                <div class="errors-section section">
+                    <%errors.forEach((error) => {%>
+                        <p><%= error.msg%></p>
+                    <%})%>
+
+                </div>
+                <%}%>
+                <button>Create new game</button>
+            </form>
+            </div>
+        </div>
+    </body>
+</html>
