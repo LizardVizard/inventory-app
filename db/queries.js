@@ -140,6 +140,67 @@ const insertGameGenres = async (gameId, genreIdArray) => {
   });
 };
 
+const updateGame = async ({ id, title, developerId, releaseYear, genres }) => {
+  const client = await pool.connect();
+  console.log("UPdate game queri");
+
+  try {
+    await client.query("BEGIN");
+
+    const { rows } = await client.query(
+      `SELECT EXISTS (SELECT 1 FROM games WHERE id=$1)`,
+      [id],
+    );
+
+    if (!rows[0].exists) {
+      throw new Error(`Game with id ${id} doesn't exist`);
+    }
+
+    await client.query(
+      `UPDATE games SET title=$2, developer_id=$3, release_year=$4 WHERE id=$1`,
+      [id, title, developerId, releaseYear],
+    );
+
+    await client.query(`DELETE FROM game_genres WHERE game_id=$1`, [id]);
+
+    if (genres.length > 0) {
+      const insertedGenres = genres.map((_, i) => `($1, $${i + 2})`).join(",");
+      const insertedValues = [id, ...genres];
+
+      await client.query(
+        `INSERT INTO game_genres(game_id,genre_id) VALUES ${insertedGenres}`,
+        insertedValues,
+      );
+    }
+
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error(error);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+// const updateGameEntry = async ({ id, title, developerId, releaseYear }) => {
+//   await pool.query(
+//     `UPDATE FROM games SET title=$2, developer_id=$3, release_year=$4 WHERE id=$1`,
+//     [id, title, developerId, releaseYear],
+//   );
+// };
+//
+// const updateGameGenres = async ({ gameId, genreIdArray }) => {
+//   await pool.query(`DELETE game_genres WHERE game_id=$1`, [gameId]);
+//   genreIdArray.forEach(
+//     async (genreId) =>
+//       await pool.query(
+//         `INSERT INTO game_genres (game_id, genre_id) VALUES ($1, $2)`,
+//         [gameId, genreId],
+//       ),
+//   );
+// };
+
 // const getDeveloperByGameId = async (id) => {
 //   const { rows } = await pool.query(`SELECT * FROM developers WHERE id = $1`, [
 //     id,
@@ -154,6 +215,7 @@ export default {
   getGamesByDeveloperId,
   insertGame,
   insertGameGenres,
+  updateGame,
   getNGamesByReleaseYear,
 
   getAllGenres,

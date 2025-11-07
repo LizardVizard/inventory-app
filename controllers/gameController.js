@@ -9,7 +9,10 @@ const validateGame = [
     .isLength({ min: 1 })
     .withMessage("Title must have at least 1 character"),
 
-  body("genres.*").isNumeric(),
+  // body("selectedGenres.*")
+  //   .isArray()
+  //   .isNumeric()
+  //   .withMessage("Genres ids should be integer"),
 
   body("developerId").notEmpty().withMessage("Select a developer"),
 
@@ -73,7 +76,9 @@ const postCreateGame = [
   validateGame,
   async (req, res) => {
     const errors = validationResult(req);
-    const { title, releaseYear } = matchedData(req, { onlyValidData: false });
+    const { title, releaseYear, selectedGenres } = matchedData(req, {
+      onlyValidData: false,
+    });
 
     if (!errors.isEmpty()) {
       const [genres, developers] = await Promise.all([
@@ -84,6 +89,7 @@ const postCreateGame = [
         title: "Create game",
         genres,
         developers,
+        selectedGenres,
         oldData: { title, releaseYear },
         errors: errors.array({ onlyFirstError: true }),
       });
@@ -92,12 +98,93 @@ const postCreateGame = [
     const { developerId } = req.body;
 
     const game = await queries.insertGame({ title, developerId, releaseYear });
-    const genres = req.body.genres;
 
-    await queries.insertGameGenres(game.id, genres);
+    await queries.insertGameGenres(game.id, selectedGenres);
 
     res.redirect(`/games/${game.id}`);
   },
 ];
 
-export default { getAllGames, getGameById, getCreateGame, postCreateGame };
+const getUpdateGame = async (req, res) => {
+  const id = Number(req.params.id);
+  const [game, gameGenres, genres, developers] = await Promise.all([
+    queries.getGameById(id),
+    queries.getGenresByGameId(id),
+    queries.getAllGenres(),
+    queries.getAllDevelopers(),
+  ]);
+
+  if (!game) {
+    return res
+      .status(404)
+      .render("404", { title: "Page not found", message: "Game not found" });
+  }
+
+  return res.render("updateGame", {
+    title: `Updating ${game.title} game`,
+    game,
+    selectedGenres: gameGenres.map((gameGenre) => gameGenre.id),
+    genres,
+    developers,
+  });
+};
+
+const postUpdateGame = [
+  validateGame,
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    const id = Number(req.params.id);
+    const { title, developerId, releaseYear } = matchedData(req);
+    const inputGenres = req.body.selectedGenres;
+    const selectedGenres = !inputGenres
+      ? []
+      : Array.isArray(inputGenres)
+        ? inputGenres.map(Number)
+        : [Number(inputGenres)];
+
+    if (!errors.isEmpty()) {
+      const game = {
+        title,
+        developer_id: Number(developerId),
+        release_year: releaseYear,
+      };
+      const [genres, developers] = await Promise.all([
+        queries.getAllGenres(),
+        queries.getAllDevelopers(),
+      ]);
+
+      return res.render("updateGame", {
+        title: "Updating game",
+        game,
+        genres,
+        developers,
+        selectedGenres,
+        errors: errors.array({ onlyFirstError: true }),
+      });
+    }
+
+    try {
+      await queries.updateGame({
+        id,
+        title,
+        developerId,
+        releaseYear,
+        genres: selectedGenres,
+      });
+      return res.redirect(`/games/${id}`);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).render("error", { message: "Server error" });
+    }
+  },
+];
+
+export default {
+  getAllGames,
+  getGameById,
+  getCreateGame,
+  postCreateGame,
+  getUpdateGame,
+  postUpdateGame,
+};

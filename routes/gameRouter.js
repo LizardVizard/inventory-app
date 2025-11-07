@@ -9,5 +9,9 @@ gameRouter
   .get(gameController.getCreateGame)
   .post(gameController.postCreateGame);
 gameRouter.get("/:id", gameController.getGameById);
+gameRouter
+  .route("/:id/update")
+  .get(gameController.getUpdateGame)
+  .post(gameController.postUpdateGame);
 
 export default gameRouter;
