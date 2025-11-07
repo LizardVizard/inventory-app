@@ -30,8 +30,8 @@
                     <div class="checkbox-container">
                         <%genres.forEach((genre) => {%>
                             <div>
-                                <input type="checkbox" name="selectedGenres" value="<%=genre.id%>">
-                                <label for="selectedGenres"><%=genre.name%></label>
+                                <input type="checkbox" id="genre-<%=genre.id%>"  name="selectedGenres" value="<%=genre.id%>">
+                                <label for="genre-<%=genre.id%>"><%=genre.name%></label>
                             </div>
                         <%})%>
                     </div>
