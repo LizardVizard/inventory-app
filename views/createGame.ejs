@@ -14,7 +14,7 @@
                     <input name="title" type="text" value="<%=oldData.title || ''%>"></input>
                 </div>
                 <div class="form-row">
-                    <label>Select genres: </label>
+                    <label>Select developer: </label>
                         <select name="developerId" required>
                             <option selected="true" value disabled>--select a developer--</option>
                             <%developers.forEach((developer) => {%>
@@ -30,8 +30,8 @@
                     <div class="checkbox-container">
                         <%genres.forEach((genre) => {%>
                             <div>
-                                <input type="checkbox" name="genres" value="<%=genre.id%>">
-                                <label for="genres"><%=genre.name%></label>
+                                <input type="checkbox" name="selectedGenres" value="<%=genre.id%>">
+                                <label for="selectedGenres"><%=genre.name%></label>
                             </div>
                         <%})%>
                     </div>
