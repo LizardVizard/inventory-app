@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/style.css"/>
+    </head>
+    <body>
+        <div class='category-list'>
+            <div class='category'>
+            <div class="title-section">
+            <h4> <%= title %> </h4></div>
+                <p> <%= game.title%>(<%= game.release_year%>)</p>
+                <p> Developed by:
+                    <%if (developer) {%>
+                        <%= developer.name%>
+                    <%} else {%>
+                        Developer not defined
+                    <%}%>
+                </p>
+                <p> Genres:
+                    <%genres.forEach((genre, index) => {%>
+                        <%= genre.name%><%= index < genres.length-1 ? ", " : ""%>
+                    <%})%>
+                </p>
+            <%if (locals.errors) {%>
+            <div class="errors-section section">
+                <%errors.forEach((error) => {%>
+                    <p><%= error.msg%></p>
+                <%})%>
+
+            </div>
+            <%}%>
+            <form method="POST">
+                <button>Confirm game deletion</button>
+            </form>
+            </div>
+        </div>
+    </body>
+</html>
+

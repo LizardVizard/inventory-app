@@ -183,6 +183,20 @@ const updateGame = async ({ id, title, developerId, releaseYear, genres }) => {
   }
 };
 
+const deleteGame = async (id) => {
+  const { rows } = await pool.query(
+    `SELECT EXISTS (SELECT 1 FROM games WHERE id=$1)`,
+    [id],
+  );
+
+  if (!rows[0].exists) {
+    throw new Error(`Game with id ${id} doesn't exist`);
+  }
+
+  await pool.query(`DELETE FROM game_genres WHERE game_id=$1`, [id]);
+  await pool.query(`DELETE FROM games WHERE id=$1`, [id]);
+};
+
 // const updateGameEntry = async ({ id, title, developerId, releaseYear }) => {
 //   await pool.query(
 //     `UPDATE FROM games SET title=$2, developer_id=$3, release_year=$4 WHERE id=$1`,
@@ -216,6 +230,7 @@ export default {
   insertGame,
   insertGameGenres,
   updateGame,
+  deleteGame,
   getNGamesByReleaseYear,
 
   getAllGenres,

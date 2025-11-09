@@ -180,6 +180,38 @@ const postUpdateGame = [
   },
 ];
 
+const getDeleteGame = async (req, res) => {
+  const id = Number(req.params.id);
+
+  const game = await queries.getGameById(id);
+
+  const [developer, genres] = await Promise.all([
+    queries.getDeveloperById(game.developer_id),
+    queries.getGenresByGameId(game.id),
+  ]);
+
+  if (!game) {
+    return res
+      .status(404)
+      .render("404", { title: "Page not found", message: "Game not found" });
+  }
+
+  return res.render("deleteGame", {
+    title: `Deleting ${game.title}`,
+    game,
+    developer,
+    genres,
+  });
+};
+
+const postDeleteGame = async (req, res) => {
+  const id = Number(req.params.id);
+
+  await queries.deleteGame(id);
+
+  res.redirect("/games");
+};
+
 export default {
   getAllGames,
   getGameById,
@@ -187,4 +219,6 @@ export default {
   postCreateGame,
   getUpdateGame,
   postUpdateGame,
+  getDeleteGame,
+  postDeleteGame,
 };

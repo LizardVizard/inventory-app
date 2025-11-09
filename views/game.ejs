@@ -20,8 +20,13 @@
                         <a href="/genres/<%=genre.id%>"><%= genre.name%></a><%= index < genres.length-1 ? ", " : ""%>
                     <%})%>
                 </h4>
-                <h4> Developed by: <a href='/developers/<%=developer.id%>'>
-                    <%= developer.name%></a>
+                <h4> Developed by:
+                    <%if (developer) {%>
+                        <a href='/developers/<%=developer.id%>'><%= developer.name%></a>
+                        <%= developer.name%>
+                    <%} else {%>
+                        Developer not defined
+                    <%}%>
                 </h4>
             </div>
         <%}%>

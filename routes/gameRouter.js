@@ -13,5 +13,9 @@ gameRouter
   .route("/:id/update")
   .get(gameController.getUpdateGame)
   .post(gameController.postUpdateGame);
+gameRouter
+  .route("/:id/delete")
+  .get(gameController.getDeleteGame)
+  .post(gameController.postDeleteGame);
 
 export default gameRouter;
