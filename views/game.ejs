@@ -9,13 +9,21 @@
         <%if (!gameFound) {%>
             <h3>Game not found</h3>
         <%} else {%>
-            <div class="category"><h3> <%= game.title%>(<%= game.release_year%>)</h3>
-            <h4> Genres: 
-                <%genres.forEach((genre, index) => {%>
-                    <a href="/genres/<%=genre.id%>"><%= genre.name%></a><%= index < genres.length-1 ? ", " : ""%>
-                <%})%> 
-            </h4>
-            <h4> Developed by: <a href='/developers/<%=developer.id%>'><%= developer.name%></a> </h4></div>
+            <div class="category">
+                <h3> <%= game.title%>(<%= game.release_year%>)</h3>
+                <h2>
+                    <a href="/games/<%= game.id%>/update/" tabindex="-1"><button>Update</button></a>
+                    <a href="/games/<%= game.id%>/delete/" tabindex="-1"><button>Delete</button></a>
+                </h2>
+                <h4> Genres:
+                    <%genres.forEach((genre, index) => {%>
+                        <a href="/genres/<%=genre.id%>"><%= genre.name%></a><%= index < genres.length-1 ? ", " : ""%>
+                    <%})%>
+                </h4>
+                <h4> Developed by: <a href='/developers/<%=developer.id%>'>
+                    <%= developer.name%></a>
+                </h4>
+            </div>
         <%}%>
         </div>
     </body>

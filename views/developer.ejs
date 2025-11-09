@@ -16,6 +16,7 @@
                         <h3> <%= developer.name %> </h3>
                         <h4>from <%= developer.country%> </h4>
                         <h2>
+                            <a href="/developers/<%= developer.id%>/update/" tabindex="-1"><button>Update</button></a>
                             <a href="/developers/<%= developer.id%>/delete/" tabindex="-1"><button>Delete</button></a>
                         </h2>
                     </div>
