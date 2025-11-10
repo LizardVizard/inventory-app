@@ -9,10 +9,9 @@ const validateGame = [
     .isLength({ min: 1 })
     .withMessage("Title must have at least 1 character"),
 
-  // body("selectedGenres.*")
-  //   .isArray()
-  //   .isNumeric()
-  //   .withMessage("Genres ids should be integer"),
+  body("selectedGenres.*")
+    .isNumeric()
+    .withMessage("Genres ids should be integer"),
 
   body("developerId").notEmpty().withMessage("Select a developer"),
 
